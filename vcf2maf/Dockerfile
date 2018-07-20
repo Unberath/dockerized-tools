@@ -6,12 +6,13 @@
 # Description:      Convert a VCF into a MAF, where each variant is annotated 
 #                   to only one of all possible gene isoforms
 # Website:          https://github.com/mskcc/vcf2maf
-# Base Image:       ubuntu 14.04
+# Base Image:       ubuntu 16.04
 # Run Cmd:          docker run vcf2maf perl vcf2maf.pl --man
+# Adapted from Adam Struck <strucka@ohsu.edu>
 #################################################################
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
-MAINTAINER Adam Struck <strucka@ohsu.edu>
+MAINTAINER Philipp Unberath <philipp.unberath@fau.de>
 
 USER root
 ENV VEP_PATH /root/vep
@@ -38,10 +39,10 @@ RUN apt-get update && \
 WORKDIR /opt/
 
 # download vep
-RUN curl -LO https://github.com/Ensembl/ensembl-tools/archive/release/86.tar.gz && \
-    tar -zxvf 86.tar.gz && \
+RUN curl -LO https://github.com/Ensembl/ensembl-tools/archive/release/91.tar.gz && \
+    tar -zxvf 91.tar.gz && \
     mkdir $VEP_PATH && \
-    mv ensembl-tools-release-86/scripts/variant_effect_predictor/* $VEP_PATH && \
+    mv ensembl-tools-release-91/scripts/variant_effect_predictor/* $VEP_PATH && \
     rm -rf *
 
 # install htslib, samtools, and bcftools
