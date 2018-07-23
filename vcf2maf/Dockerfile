@@ -49,8 +49,9 @@ RUN curl -LO https://github.com/Ensembl/ensembl-vep/archive/release/91.tar.gz &&
 WORKDIR $VEP_PATH
 
 RUN mkdir $VEP_PATH/samtools && cd $VEP_PATH/samtools && \
-    curl -LOOO https://github.com/samtools/{samtools/releases/download/1.3.1/samtools-1.3.1,bcftools/releases/download/1.3.1/bcftools-1.3.1}.tar.bz2 && \
+    curl -LOOO https://github.com/samtools/{samtools/releases/download/1.3.1/samtools-1.3.1,bcftools/releases/download/1.3.1/bcftools-1.3.1,htslib/releases/download/1.3.2/htslib-1.3.2}.tar.bz2 && \
     cat *tar.bz2 | tar -ijxf - &&\
+	cd htslib-1.3.2 && make && make prefix=$VEP_PATH/samtools install && cd .. &&\
     cd samtools-1.3.1 && make && make prefix=$VEP_PATH/samtools install && cd .. && \
     cd bcftools-1.3.1 && make && make prefix=$VEP_PATH/samtools install && cd .. && \
     cd ..
