@@ -65,11 +65,11 @@ RUN mkdir $VEP_PATH/src && cd $VEP_PATH/src && \
     cd bcftools-1.3.1 && make && make prefix=$VEP_PATH/samtools install && cd .. && \
     cd ..
 
-ENV PERL5LIB $VEP_PATH:/src/bioperl-1.6.924:$PERL5LIB
-ENV PERL5LIB $VEP_PATH:/src/ensembl/modules:$PERL5LIB
-ENV PERL5LIB $VEP_PATH:/src/ensembl-compara/modules:$PERL5LIB
-ENV PERL5LIB $VEP_PATH:/src/ensembl-variation/modules:$PERL5LIB
-ENV PERL5LIB $VEP_PATH:/src/ensembl-funcgen/modules:$PERL5LIB
+ENV PERL5LIB $VEP_PATH/src/bioperl-1.6.924:$PERL5LIB
+ENV PERL5LIB $VEP_PATH/src/ensembl/modules:$PERL5LIB
+ENV PERL5LIB $VEP_PATH/src/ensembl-compara/modules:$PERL5LIB
+ENV PERL5LIB $VEP_PATH/src/ensembl-variation/modules:$PERL5LIB
+ENV PERL5LIB $VEP_PATH/src/ensembl-funcgen/modules:$PERL5LIB
 
 # install liftOver
 RUN curl -L http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/liftOver > $VEP_PATH/samtools/bin/liftOver && \
