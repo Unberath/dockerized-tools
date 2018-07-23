@@ -49,12 +49,27 @@ RUN curl -LO https://github.com/Ensembl/ensembl-vep/archive/release/91.tar.gz &&
 WORKDIR $VEP_PATH
 
 RUN mkdir $VEP_PATH/samtools && cd $VEP_PATH/samtools && \
+    curl -LOOO ftp://ftp.ensembl.org/pub/ensembl-api.tar.gz && \
+    curl -LOOO https://cpan.metacpan.org/authors/id/C/CJ/CJFIELDS/BioPerl-1.6.924.tar.gz  && \
+    tar -zxvf ensembl-api.tar.gz &&\
+    tar -zxvf BioPerl-1.6.924.tar.gz &&\
+    cd ..
+
+	
+# install ensempl api and BioPerl
+RUN mkdir $VEP_PATH/src && cd $VEP_PATH/src && \
     curl -LOOO https://github.com/samtools/{samtools/releases/download/1.3.1/samtools-1.3.1,bcftools/releases/download/1.3.1/bcftools-1.3.1,htslib/releases/download/1.3.2/htslib-1.3.2}.tar.bz2 && \
     cat *tar.bz2 | tar -ijxf - &&\
 	cd htslib-1.3.2 && make && make prefix=$VEP_PATH/samtools install && cd .. &&\
     cd samtools-1.3.1 && make && make prefix=$VEP_PATH/samtools install && cd .. && \
     cd bcftools-1.3.1 && make && make prefix=$VEP_PATH/samtools install && cd .. && \
     cd ..
+
+ENV PERL5LIB $VEP_PATH:/src/bioperl-1.6.924:$PERL5LIB
+ENV PERL5LIB $VEP_PATH:/src/ensembl/modules:$PERL5LIB
+ENV PERL5LIB $VEP_PATH:/src/ensembl-compara/modules:$PERL5LIB
+ENV PERL5LIB $VEP_PATH:/src/ensembl-variation/modules:$PERL5LIB
+ENV PERL5LIB $VEP_PATH:/src/ensembl-funcgen/modules:$PERL5LIB
 
 # install liftOver
 RUN curl -L http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/liftOver > $VEP_PATH/samtools/bin/liftOver && \
