@@ -48,12 +48,15 @@ RUN curl -LO https://github.com/Ensembl/ensembl-vep/archive/release/91.tar.gz &&
 # install htslib, samtools, and bcftools
 WORKDIR $VEP_PATH
 
-# install ensempl api and BioPerl
+# install ensempl api, BioPerl and ensembl io
 RUN mkdir $VEP_PATH/src && cd $VEP_PATH/src && \
     curl -LOOO ftp://ftp.ensembl.org/pub/ensembl-api.tar.gz && \
     curl -LOOO https://cpan.metacpan.org/authors/id/C/CJ/CJFIELDS/BioPerl-1.6.924.tar.gz  && \
+    curl -LOOO https://github.com/Ensembl/ensembl-io/archive/release/91.zip  && \
     tar -zxvf ensembl-api.tar.gz &&\
     tar -zxvf BioPerl-1.6.924.tar.gz &&\
+	unzip 91.zip &&\
+	mv ensembl-io-release-91 ensembl-io &&\
     cd ..
 
 ENV PERL5LIB $VEP_PATH/src/bioperl-1.6.924:$PERL5LIB
@@ -61,6 +64,7 @@ ENV PERL5LIB $VEP_PATH/src/ensembl/modules:$PERL5LIB
 ENV PERL5LIB $VEP_PATH/src/ensembl-compara/modules:$PERL5LIB
 ENV PERL5LIB $VEP_PATH/src/ensembl-variation/modules:$PERL5LIB
 ENV PERL5LIB $VEP_PATH/src/ensembl-funcgen/modules:$PERL5LIB
+ENV PERL5LIB $VEP_PATH/src/ensembl-io/modules:$PERL5LIB
 
 	
 # install htslib, samtools, and bcftools
@@ -78,7 +82,7 @@ RUN curl -L http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/liftOver > $VE
     chmod a+x $VEP_PATH/samtools/bin/liftOver
 
 # install perl dependencies
-RUN cpanm --mirror http://cpan.metacpan.org -l /opt/ File::Copy::Recursive Module::Build Bio::PrimarySeqI Bio::EnsEMBL::IO && \
+RUN cpanm --mirror http://cpan.metacpan.org -l /opt/ File::Copy::Recursive Module::Build Bio::PrimarySeqI && \
     rm -rf ~/.cpanm
 
 # install VEP and plugins
