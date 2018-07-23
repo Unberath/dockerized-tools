@@ -39,10 +39,10 @@ RUN apt-get update && \
 WORKDIR /opt/
 
 # download vep
-RUN curl -LO https://github.com/Ensembl/ensembl-tools/archive/release/91.tar.gz && \
+RUN curl -LO https://github.com/Ensembl/ensembl-vep/archive/release/91.tar.gz && \
     tar -zxvf 91.tar.gz && \
     mkdir $VEP_PATH && \
-    mv ensembl-tools-release-91/scripts/variant_effect_predictor/* $VEP_PATH && \
+    mv ensembl-vep-release-91/* $VEP_PATH && \
     rm -rf *
 
 # install htslib, samtools, and bcftools
@@ -70,7 +70,7 @@ RUN cd $VEP_PATH && \
 # install vcf2maf
 WORKDIR /home/
 
-RUN curl -ksSL -o tmp.tar.gz https://github.com/mskcc/vcf2maf/archive/v1.6.10.tar.gz && \
+RUN curl -ksSL -o tmp.tar.gz https://github.com/mskcc/vcf2maf/archive/v1.6.16.tar.gz && \
     tar --strip-components 1 -zxf tmp.tar.gz && \
     rm tmp.tar.gz
 
