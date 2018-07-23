@@ -78,7 +78,7 @@ RUN curl -L http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/liftOver > $VE
     chmod a+x $VEP_PATH/samtools/bin/liftOver
 
 # install perl dependencies
-RUN cpanm --mirror http://cpan.metacpan.org -l /opt/ File::Copy::Recursive Module::Build Bio::PrimarySeqI && \
+RUN cpanm --mirror http://cpan.metacpan.org -l /opt/ File::Copy::Recursive Module::Build Bio::PrimarySeqI Bio::EnsEMBL::IO && \
     rm -rf ~/.cpanm
 
 # install VEP and plugins
